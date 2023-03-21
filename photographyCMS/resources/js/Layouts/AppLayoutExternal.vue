@@ -50,11 +50,9 @@ const showingNavigationDropdown = ref(false)
             <!-- Login/Register -->
             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
               <template v-if="canLogin">
-                <NavLink v-if="$page.props.auth.user" :href="route('dashboard')" class="items-right">Dashboard</NavLink>
+                <NavLink v-if="$page.props.auth.user" :href="route('dashboard')" class="items-right">Members Page</NavLink>
                 <template v-else>
                   <NavLink :href="route('login')" align="Right">Log in</NavLink>
-
-                  <NavLink v-if="canRegister" :href="route('register')" align="Right">Register</NavLink>
                 </template>
               </template>
             </div>
@@ -95,6 +93,19 @@ const showingNavigationDropdown = ref(false)
             <ResponsiveNavLink :href="route('about')" :active="route().current('about')">
               About
             </ResponsiveNavLink>
+          </div>
+          <!-- Responsive Settings Options -->
+          <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="mt-3 space-y-1">
+              <template v-if="canLogin">
+                <ResponsiveNavLink v-if="$page.props.auth.user" :href="route('dashboard')" :active="route().current('login')">Members Page</ResponsiveNavLink>
+                <template v-else>
+                  <ResponsiveNavLink :href="route('login')" :active="route().current('login')">
+                    Log in
+                  </ResponsiveNavLink>
+                </template>
+              </template>
+            </div>
           </div>
         </div>
       </nav>

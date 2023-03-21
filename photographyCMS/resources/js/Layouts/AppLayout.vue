@@ -51,6 +51,26 @@ const logout = () => {
                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                   Dashboard
                 </NavLink>
+                <NavLink :href="route('submission')" :active="route().current('submission')">
+                  Submissions
+                </NavLink>
+                <NavLink :href="route('my-photos')" :active="route().current('my-photos')">
+                  My Photos
+                </NavLink>
+                <NavLink :href="route('barometer')" :active="route().current('barometer')">
+                  Barometer
+                </NavLink>
+                <NavLink :href="route('competition')" :active="route().current('competition')">
+                  Club Competitions
+                </NavLink>
+                <NavLink :href="route('clubstats')" :active="route().current('clubstats')">
+                  Club Stas
+                </NavLink>
+                <template v-if="$page.props.auth.is['publish articles']">
+                  <NavLink :href="route('clubstats')" :active="route().current('clubstats')">
+                    Admin
+                  </NavLink>
+                </template>
               </div>
             </div>
 

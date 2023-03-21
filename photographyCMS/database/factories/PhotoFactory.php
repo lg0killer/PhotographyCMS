@@ -17,7 +17,8 @@ class PhotoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'path' => fake()->imageUrl(),
+            'description' => fake()->paragraphs(2,true),
         ];
     }
 }
