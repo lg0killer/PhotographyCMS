@@ -66,7 +66,7 @@ const logout = () => {
                 <NavLink :href="route('clubstats')" :active="route().current('clubstats')">
                   Club Stas
                 </NavLink>
-                <template v-if="$page.props.auth.is['publish articles']">
+                <template v-if="$page.props.role.is['admin','Super-Admin']">
                   <NavLink :href="route('clubstats')" :active="route().current('clubstats')">
                     Admin
                   </NavLink>
