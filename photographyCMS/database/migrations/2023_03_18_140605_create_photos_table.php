@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('path');
             $table->text('description');
+            $table->text('uploaded_by');
+            $table->text('owned_by');
             $table->timestamps();
         });
     }

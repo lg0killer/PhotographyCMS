@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Photo;
 use Illuminate\Http\Request;
+use App\Models\Photo;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class PhotoController extends Controller
+class UserPhotoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($user_id)
     {
+        //$user_id = Auth::user()->id;
         return inertia(
-            'Photo/Index',
+            'User/Photo/Index',
             [
-                'photos' => Photo::all(),
+                'photos' => Photo::where('owned_by','=', $user_id)->get(),
+                'photo_owner' => User::where('id','=', $user_id)->first('name')
             ]
             );
     }
@@ -40,21 +43,26 @@ class PhotoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Photo $photo)
-    {
+    public function show(User $user,Photo $photo)
+    {   
         $user_id = Auth::user()->id;
         if ($user_id == $photo->owned_by) {
-            $authorized = true;
-        } else {
-            $authorized = false;
-        }
         return inertia(
-            'Photo/Show',
+            'User/Photo/Show',
             [
                 'photo' => $photo,
-                'authorized' => $authorized,
+                'authorized' => true,
             ]
             );
+        } else {
+            return inertia(
+                'User/Photo/Show',
+                [
+                    'photo' => $photo,
+                    'authorized' => false,
+                ]
+                );
+        }
     }
 
     /**

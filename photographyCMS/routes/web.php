@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Photo;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UserPhotoController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +30,7 @@ use App\Models\Photo;
 
 Route::get('/', function () {
     return Inertia::render('Home', [
-        'photos' => \App\Models\Photo::where('created_at','>',now()->subDays(14)->endOfDay())->get(),
+        'photos' => \App\Models\Photo::where('created_at','>',now()->subDays(104)->endOfDay())->get(),
         'canLogin' => Route::has('login'),
     ]);
 })->name('home');
@@ -44,7 +47,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard',['user'=>Auth::user()->id,]);
     })->name('dashboard');
     Route::get('/competition', function () {
         return Inertia::render('Dashboard');
@@ -61,4 +64,18 @@ Route::middleware([
     Route::get('/my-photos', function () {
         return Inertia::render('Dashboard');
     })->name('my-photos');
+    Route::get('/admin/users', function () {
+        return Inertia::render('Admin/Users/Show');
+    })->name('admin.users');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::resource('photos',PhotoController::class)
+    ->only(['show']);
+    Route::resource('user.photos',UserPhotoController::class)
+    ->only(['index']);
 });
