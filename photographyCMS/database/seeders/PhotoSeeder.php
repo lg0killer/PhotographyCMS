@@ -19,6 +19,7 @@ class PhotoSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $photo = new Photo();
             $photo->path = $faker->imageUrl();
+            $photo->path = $faker->name();
             $photo->description = $faker->paragraphs(2, true);
             $photo->owned_by = User::all()->random()->id;
             $photo->uploaded_by = $photo->owned_by;

@@ -13,8 +13,11 @@ defineProps({
       <div class="max-w-7xl mx-auto">
         <div class="flex justify-between">
           <div class="flex sm:items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-              Specific Photo
+            <h2 v-if="photo.name" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+              {{ photo.name }}
+            </h2>
+            <h2 v-else class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+              No name for Photo
             </h2>
           </div>
         </div>

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $this->call(PermissionsSeeder::class);
         \App\Models\Photo::factory(10)->create();
     }
 }

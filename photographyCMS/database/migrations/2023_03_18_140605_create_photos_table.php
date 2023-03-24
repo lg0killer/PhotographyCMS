@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->string('name');
             $table->text('description');
             $table->text('uploaded_by');
             $table->text('owned_by');
