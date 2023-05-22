@@ -1,11 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserAccountController;
-use App\Http\Controllers\UserPhotoController;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,39 +11,28 @@ use App\Http\Controllers\UserPhotoController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/hello', [IndexController::class, 'show'])
-    ->middleware('auth');
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
-Route::resource('photo', PhotoController::class)
-    //->only('create', 'store', 'edit', 'update', 'destroy')
-    ->middleware('auth');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-//Route::resource('photo', PhotoController::class)
-//    ->except('create', 'store', 'edit', 'update', 'destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('login', [AuthController::class, 'create'])
-    ->name('login');
-Route::post('login', [AuthController::class, 'store'])
-    ->name('login.store');
-Route::get('logout', [AuthController::class, 'destroy'])
-    ->name('logout');
-
-Route::resource('user-account', UserAccountController::class)
-    ->only('update','create','store')
-    ->middleware('auth');;
-Route::get('user-account/edit', [UserAccountController::class, 'edit'])
-    ->name('user-account.edit')
-    ->middleware('auth');;
-
-Route::prefix('user')
-    ->name('user.')
-    ->middleware('auth')
-    ->group(function() {
-        Route::resource('photo', UserPhotoController::class)->only('index', 'create', 'store');
-    });
+require __DIR__.'/auth.php';
