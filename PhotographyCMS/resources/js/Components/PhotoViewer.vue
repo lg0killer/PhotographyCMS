@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <img :src="photo.image" class="object-cover h-48 w-96 object-center"/>
-    <div>{{ photo.name }}</div>
+  <div class="flex flex-col">
+    <img :src="photo.image" class=""/>
+    <div class="basis-3/4">{{ photo.name }}</div>
   </div>
 </template>
 

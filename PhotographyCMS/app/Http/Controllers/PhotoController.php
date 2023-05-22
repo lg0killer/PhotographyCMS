@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Photo;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PhotoController extends Controller
 {
@@ -22,7 +24,8 @@ class PhotoController extends Controller
         return inertia(
             "Photo/Index",
             [
-                'photos' => Photo::orderByDesc('created_at')->paginate(10)
+                //'photos' => DB::table('photos')->orderByDesc('created_at')->paginate(10),
+                'photos' => Photo::with('category','owner')->orderByDesc('created_at')->paginate(10)
             ]
         );
     }
@@ -33,7 +36,9 @@ class PhotoController extends Controller
     public function create()
     {
         //$this->authorize('create', Photo::class);
-        return inertia("Photo/Create");
+        return inertia("Photo/Create", [
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -44,6 +49,7 @@ class PhotoController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:255'],
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
             'image' => 'required|image|mimes:png,jpg,jpeg|max:1024',
         ]);
 
@@ -51,6 +57,7 @@ class PhotoController extends Controller
         $request->user()->photos()->create([
             'name' => $request->name,
             'description' => $request->description,
+            'category_id' => $request->category_id,
             'image' => Storage::url($path)
         ]);
         return redirect()->route('user.photo.index')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
 
 class UserPhotoController extends Controller
 {
@@ -12,7 +13,7 @@ class UserPhotoController extends Controller
         return inertia(
             "Photo/Index",
             [
-                'photos' => Auth::user()->photos()->orderByDesc('created_at')->paginate(10)
+                'photos' => Auth::user()->photos()->with('category','owner')->orderByDesc('created_at')->paginate(10),
             ]
         );
     }

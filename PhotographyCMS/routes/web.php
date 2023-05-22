@@ -37,7 +37,11 @@ Route::get('logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
 Route::resource('user-account', UserAccountController::class)
-    ->only('create','store');
+    ->only('update','create','store')
+    ->middleware('auth');;
+Route::get('user-account/edit', [UserAccountController::class, 'edit'])
+    ->name('user-account.edit')
+    ->middleware('auth');;
 
 Route::prefix('user')
     ->name('user.')

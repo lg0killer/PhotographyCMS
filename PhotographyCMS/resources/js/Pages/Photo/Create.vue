@@ -13,6 +13,14 @@
         <div v-if="form.errors.description" class="error">{{ form.errors.description }}</div>
       </div>
 
+      <div class="col-span-3">
+        <label class="label">Category</label>
+        <select class="input" v-model="form.category_id">
+          <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+        </select>
+        <div v-if="form.errors.category_id" class="error">{{ form.errors.category_id }}</div>
+      </div>
+
       <div class="col-span-4">
         <label class="label">Image</label>
         <input 
@@ -33,9 +41,14 @@
 <script setup>
 import {useForm} from '@inertiajs/vue3'
 
+defineProps({
+  categories: Object,
+})
+
 const form = useForm({
   name: '',
   description: '',
+  category_id: '',
   image: null,
 })
 
