@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import Box from '@/Components/UI/Box.vue'
+import Box from '@/Components/Box.vue'
 import { Link, useForm } from '@inertiajs/vue3'
 import { computed } from 'vue'
 
@@ -52,6 +52,8 @@ const upload = () => {
 }
 
 const addFiles = (event) => {
+  //TODO Limit the number of files that can be uploaded
+  
   for (const image of event.target.files) {
     form.images.push(image)
   }

@@ -1,57 +1,90 @@
 <template>
+  <AppLayout title="Photos">
+    <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          Photos
+      </h2>
+    </template>
+
   <form enctype="multipart/form-data" @submit.prevent="create">
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-4 p-4">
       <div class="col-span-3">
-        <label class="label">Image Name</label>
-        <input class="input" type="text" v-model="form.name">
-        <div v-if="form.errors.name" class="error">{{ form.errors.name }}</div>
+        <InputLabel for="name" value="Image Name" />
+        <TextInput
+            id="name"
+            v-model="form.name"
+            type="text"
+            class="mt-1 block w-full"
+        />
+        <InputError :message="form.errors.name" class="mt-2" />
       </div>
 
       <div class="col-span-3">
-        <label class="label">Image Description</label>
-        <input class="input" type="text" v-model="form.description">
-        <div v-if="form.errors.description" class="error">{{ form.errors.description }}</div>
+        <InputLabel for="description" value="Image Description" />
+        <TextInput
+            id="description"
+            v-model="form.description"
+            type="text"
+            class="mt-1 block w-full"
+        />
+        <InputError :message="form.errors.description" class="mt-2" />
       </div>
 
       <div class="col-span-3">
-        <label class="label">Category</label>
-        <select class="input" v-model="form.category_id">
+        <InputLabel for="category" value="Image Category" />
+        <select class="dropdown_input" v-model="form.category_id">
           <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
         </select>
-        <div v-if="form.errors.category_id" class="error">{{ form.errors.category_id }}</div>
+        <InputError :message="form.errors.category_id" class="mt-2" />
       </div>
 
-      <div class="col-span-4">
-        <label class="label">Image</label>
+      <div class="col-span-3">
+        <InputLabel for="image" value="Image" />
         <input 
-          class="w-full border rounded-md file:px-4 file:py-2 border-gray-200 dark:border-gray-700 file:text-gray-700 file:dark:text-gray-400 file:border-0 file:bg-gray-100 file:dark:bg-gray-800 file:font-medium file:hover:bg-gray-200 file:dark:hover:bg-gray-700 file:hover:cursor-pointer file:mr-4"
+          class="image_input"
           type="file" 
           name="image" 
+          ref="imageInput"
           @input="form.image = $event.target.files[0]">
-        <div v-if="form.errors.image" class="error">{{ form.errors.image }}</div>
+        <InputError :message="form.errors.image" class="mt-2" />
       </div>
 
       <div class="col-span-4" dir="rtl">
-        <button class="btn-primary" type="submit">Submit</button>
+        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+          <span v-if="form.processing">Creating</span>
+          <span v-else>Create</span>
+        </PrimaryButton>
       </div>
     </div>
   </form>
+  </AppLayout>
 </template>
 
 <script setup>
 import {useForm} from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue';
+
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import TextInput from '@/Components/TextInput.vue';
+
 
 defineProps({
   categories: Object,
 })
 
-const form = useForm({
+let form = useForm({
   name: '',
   description: '',
   category_id: '',
   image: null,
 })
 
-const create = () => form.post(route('photo.store'))
+let create = () => {
+  form.post(route('photo.store'))
+  //form.post(route('photo.store'))
+}
 </script>
 

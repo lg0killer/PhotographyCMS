@@ -26,7 +26,7 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
-        return redirect()->intended(route('user.photo.index'))
+        return redirect()->intended(route('dashboard'))
             ->with('success', 'Logged in successfully');
     }
 
