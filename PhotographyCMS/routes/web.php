@@ -84,12 +84,12 @@ Route::middleware([
 //Route::resource('photo', PhotoController::class)
 //    ->except('create', 'store', 'edit', 'update', 'destroy');
 
-Route::get('login', [AuthController::class, 'create'])
-    ->name('login');
-Route::post('login', [AuthController::class, 'store'])
-    ->name('login.store');
-Route::get('logout', [AuthController::class, 'destroy'])
-    ->name('logout');
+// Route::get('login', [AuthController::class, 'create'])
+//     ->name('login');
+// Route::post('login', [AuthController::class, 'store'])
+//     ->name('login.store');
+// Route::get('logout', [AuthController::class, 'destroy'])
+//     ->name('logout');
 
 // Route::prefix('user')
 //     ->name('user.')
