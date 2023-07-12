@@ -11,6 +11,9 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Photo;
+use App\Models\Barometer;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -29,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**
@@ -61,8 +65,21 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    protected function password(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value,
+            set: fn ($value) => Hash::make($value),
+        );
+    }
+
     public function photos(): HasMany
     {
         return $this->hasMany(Photo::class, 'by_user_id');
+    }
+
+    public function barometers(): HasMany
+    {
+        return $this->hasMany(Barometer::class, 'user_id');
     }
 }

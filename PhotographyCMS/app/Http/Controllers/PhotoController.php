@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PhotoController extends Controller
 {
@@ -16,13 +17,23 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $items = Photo::with('category', 'owner')->orderByDesc('created_at')->paginate(3);
+        $items = Auth::user()
+        ->photos()
+        ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
+        ->with('category', 'awards')
+        ->orderByDesc('submitted_at')
+        ->paginate(10)
+        ->withQueryString();
+        // $items = Photo::with('category', 'owner', 'awards')->orderByDesc('created_at')->paginate(10);
         return inertia(
             "Photo/Index",
             [
-                'photos' => $items
+                'photos' => $items,
+                'filters' => request()->only(['awarded']),
             ]
         );
+
+        
         // return inertia(
         //     "Photo/Index",
         //     [

@@ -15,6 +15,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('image');
+            $table->string('image_path');
+            $table->integer('score')->nullable();
+            $table->date('submitted_at')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('alt_text')->nullable();
             $table->string('slug')->nullable();
@@ -43,7 +46,10 @@ return new class extends Migration
             'name',
             'description',
             'image',
+            'image_path',
             'thumbnail',
+            'submitted_at',
+            'score',
             'alt_text',
             'slug',
             'category',

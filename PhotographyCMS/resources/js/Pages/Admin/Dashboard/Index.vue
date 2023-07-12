@@ -1,9 +1,12 @@
 <template>
-  <h1>Index</h1>
-  <text>The message is: {{ message }}</text>
+  <AdminLayout title="Adming Dashboard">
+
+  </AdminLayout>
 </template>
 
 <script setup>
+  import AdminLayout from '@/Layouts/AdminLayout.vue'
+
   defineProps({
     message: String
   })

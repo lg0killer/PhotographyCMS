@@ -6,11 +6,6 @@ import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
-defineProps({
-    photos: Object,
-    submittedPhotos: Object,
-})
-
 </script>
 
 <template>
@@ -19,13 +14,12 @@ defineProps({
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 Dashboard
             </h2>
-            <Link :href="route('photo.create')">
+            <!-- <Link :href="route('photo.create')">
                 <PrimaryButton>Upload Photo</PrimaryButton>
-
-            </Link>
+            </Link> -->
         </template>
 
-        <div class="box">
+        <!-- <div class="box">
             <h3 class="boxHeader">My Photos</h3>
 
             <div class="boxEmpty" v-if="!photos.data.length">
@@ -48,7 +42,7 @@ defineProps({
             <div class="flex justify-center pb-4" v-if="!submittedPhotos.length">
                 <h3 class="text-gray-800 dark:text-gray-200 leading-tight p-1">No images submitted</h3>
             </div>
-        </div>
+        </div> -->
     </AppLayout>
 </template>
 

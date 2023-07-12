@@ -51,8 +51,23 @@ const logout = () => {
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('clubphoto.index')" :active="route().current('clubphoto.index')">
+                                    Club Photos
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('photo.index')" :active="route().current('photo.index')">
-                                    Photos
+                                    My Photos
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('vault.index')" :active="route().current('vault.index')">
+                                    My Vault
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('barometer.index')" :active="route().current('barometer.index')">
+                                    Barometer
                                 </NavLink>
                             </div>
                         </div>
@@ -118,6 +133,18 @@ const logout = () => {
                                 </Dropdown>
                             </div>
 
+                            <div v-if="$page.props.auth.user.is_admin" class="flex">
+                                <div class="hidden sm:flex">
+                                    <NavLink :href="route('admin.user.index')" :active="route().current('admin.user.index')">
+                                        Users
+                                    </NavLink>
+                                </div>
+                                <div class="hidden sm:flex">
+                                    <NavLink :href="route('admin.photo.index')" :active="route().current('admin.photo.index')">
+                                        Photos
+                                    </NavLink>
+                                </div>
+                            </div>
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
@@ -295,7 +322,7 @@ const logout = () => {
             <main>
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl dark:shadow-none sm:rounded-lg">
+                        <div class="bg-white dark:bg-gray-800 shadow-xl dark:shadow-none sm:rounded-lg">
                             <slot />
                         </div>
                     </div>
