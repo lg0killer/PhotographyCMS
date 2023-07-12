@@ -41,6 +41,22 @@ class DatabaseSeeder extends Seeder
         //     }
         // }
 
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of grade',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of juniors',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of seniors',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of evening',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of theme',
+        ]);
+
         //Create new categories
         \App\Models\Category::factory()->create([
             'name' => 'Altered Reality',
