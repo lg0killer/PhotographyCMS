@@ -41,27 +41,63 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of grade',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of juniors',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of seniors',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of evening',
+        ]);
+        \App\Models\Award::factory()->create([
+            'name' => 'Best of theme',
+        ]);
+
         //Create new categories
+        \App\Models\Category::factory()->create([
+            'name' => 'Altered Reality',
+            'description' => 'Computer generated images. Manipulated images. Must stimulate the viewer’s mind through creative use of line, form and colour.',
+            'short_code' => 'AR',
+        ]);
         \App\Models\Category::factory()->create([
             'name' => 'Nature',
             'description' => 'Photos of nature',
+            'short_code' => 'NA',
         ]);
         \App\Models\Category::factory()->create([
-            'name' => 'Animals',
-            'description' => 'Photos of animals',
+            'name' => 'Pictorial',
+            'description' => 'Open category. Images that aren’t defined in any other category.',
+            'short_code' => 'PI',
         ]);
         \App\Models\Category::factory()->create([
-            'name' => 'People',
-            'description' => 'Photos of people',
+            'name' => 'Scapes',
+            'description' => 'Landscapes, No human elements, manipulation, animals, farm or zoo animals, hybrid plants or flowers are allowed.',
+            'short_code' => 'SC',
         ]);
         \App\Models\Category::factory()->create([
-            'name' => 'Food',
-            'description' => 'Photos of food',
+            'name' => 'Theme',
+            'description' => 'Subject selected by committee every month. Image creativity is at the discretion of the author but must have relevance to the theme. Manipulation allowed.',
+            'short_code' => 'TH',
         ]);
         \App\Models\Category::factory()->create([
-            'name' => 'Sports',
-            'description' => 'Photos of sports',
+            'name' => 'Photojournalism',
+            'description' => 'Storytelling pictures. Documentary Pictures. Human Interest. No manipulation allowed that alters the truth. Journalistic value of picture weigh more than pictorial quality.',
+            'short_code' => 'PJ',
         ]);
+        \App\Models\Category::factory()->create([
+            'name' => 'Portrait',
+            'description' => 'Head and shoulders or full figure of person(s) / animal(s). Studio.',
+            'short_code' => 'PO',
+        ]);
+        \App\Models\Category::factory()->create([
+            'name' => 'Cellphone',
+            'description' => 'Picture taken with a cellphone camera. A C to be placed in front of category code. For example: CPO; CPI; CNA; CPJ; CAR',
+            'short_code' => 'C',
+        ]);        
 
         //Create new themes
         \App\Models\Theme::factory()->create([
@@ -95,11 +131,31 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User 2',
             'email' => 'test2@example.com',
         ]);
-        \App\Models\Photo::factory(10)->create([
-            'by_user_id' => 1]);
-            
-        \App\Models\Photo::factory(10)->create([
-            'by_user_id' => 2]);
-            
+
+        \App\Models\User::factory()->create([
+            'name' => 'Deidre Schnetler',
+            'email' => 'schnetlerdeidre@gmail.com',
+            'is_admin' => true,
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Arnold Bester',
+            'email' => 'arnold@aabcreations.co.za',
+        ]);
+        
+        \App\Models\User::factory()->create([
+            'name' => 'Elsa Schnetler',
+            'email' => 'elsies1@afrihost.co.za',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Maureen Fourie',
+            'email' => 'Maureen@maureenfourie.co.za',
+        ]);
+        
+        \App\Models\User::factory()->create([
+            'name' => 'Ada Olwage',
+            'email' => 'adaolwage@mweb.co.za',
+        ]);
     }
 }

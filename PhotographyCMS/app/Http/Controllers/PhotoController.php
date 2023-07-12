@@ -8,26 +8,38 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PhotoController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Photo::class, 'photo');
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $items = Auth::user()
+        ->photos()
+        ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
+        ->with('category', 'awards')
+        ->orderByDesc('submitted_at')
+        ->paginate(10)
+        ->withQueryString();
+        // $items = Photo::with('category', 'owner', 'awards')->orderByDesc('created_at')->paginate(10);
         return inertia(
             "Photo/Index",
             [
-                //'photos' => DB::table('photos')->orderByDesc('created_at')->paginate(10),
-                'photos' => Photo::with('category','owner')->orderByDesc('created_at')->paginate(10)
+                'photos' => $items,
+                'filters' => request()->only(['awarded']),
             ]
         );
+
+        
+        // return inertia(
+        //     "Photo/Index",
+        //     [
+        //         'photos' => Photo::with('category','owner')->orderByDesc('created_at')->paginate(10)
+        //     ]
+        // );
     }
 
     /**
@@ -47,21 +59,23 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:50'],
+            //'name' => ['required', 'string', 'max:50'],
             'description' => ['required', 'string', 'max:255'],
             'category_id' => ['required', 'integer', 'exists:categories,id'],
             'image' => 'required|image|mimes:png,jpg,jpeg|max:1024',
         ]);
 
-        $path = $request->file('image')->store('public/photos');
+        //$path = $request->file('image')->storePublicly('photos','public');
+        $path = Storage::put('photos', $request->file('image'));
         $request->user()->photos()->create([
-            'name' => $request->name,
+            //'name' => $request->name,
+            'name' => $request->file('image')->hashName(),
             'description' => $request->description,
             'category_id' => $request->category_id,
             'image' => Storage::url($path)
         ]);
-        return redirect()->route('user.photo.index')
-            ->with('success', 'Photo submitted successfully!');
+        return redirect()->route('dashboard')
+            ->banner('Photo created successfully!');
     }
 
     /**

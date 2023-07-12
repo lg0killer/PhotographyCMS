@@ -27,6 +27,8 @@ class PhotoFactory extends Factory
             'name' => fake()->name(),
             'description' => fake()->text(),
             'image' => Storage::url($stored_image),
+            'image_path' => $stored_image,
+            'submitted_at' => fake()->date(),
             'thumbnail' => Storage::url($stored_image),
             'alt_text' => fake()->text(),
             'slug' => fake()->slug(),

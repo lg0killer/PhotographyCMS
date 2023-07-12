@@ -1,0 +1,111 @@
+<template>
+    <AppLayout title="Photos">
+      <template #header>
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            Photos
+        </h2>
+      </template>
+  
+      <form enctype="multipart/form-data" @submit.prevent="create">
+        <div class="grid grid-cols-3 gap-4 p-4">
+          <div class="col-span-3">
+            <label class="label">Image Name</label>
+            <input class="input" type="text" v-model="form.name">
+            <div v-if="form.errors.name" class="error">{{ form.errors.name }}</div>
+          </div>
+  
+          <div class="col-span-3">
+            <label class="label">Image Description</label>
+            <input class="input" type="text" v-model="form.description">
+            <div v-if="form.errors.description" class="error">{{ form.errors.description }}</div>
+          </div>
+  
+          <div class="col-span-3">
+            <label class="label">Category</label>
+            <select class="input" v-model="form.category_id">
+              <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+            </select>
+            <div v-if="form.errors.category_id" class="error">{{ form.errors.category_id }}</div>
+          </div>
+  
+          <div class="col-span-4">
+            <label class="label">Image</label>
+            <input type="file" @change="previewImage" />
+            <div v-if="form.errors.image" class="error">{{ form.errors.image }}</div>
+            <div v-if="imagePreview" class="mt-4 w-full flex flex-col">
+              <label class="label">Preview:</label>
+              <img :src="imagePreview" class="max-w-full h-auto justify-center" />
+            </div>
+          </div>
+  
+          <div class="col-span-3">
+            <button class="btn-primary" type="submit" :disabled="processing">Create</button>
+          </div>
+        </div>
+      </form>
+    </AppLayout>
+  </template>
+  
+  <script>
+  import AppLayout from '@/Layouts/AppLayout.vue';
+  import { useForm, router } from '@inertiajs/vue3';
+  import { ref } from 'vue';
+
+  
+  export default {
+
+    components: {
+      AppLayout,
+    },
+
+    props: {
+      categories: {
+        type: Array,
+        required: true,
+      },
+    },
+  
+    setup() {
+      const form = useForm({
+        name: '',
+        description: '',
+        category_id: null,
+        image: null,
+      })
+      let porcessing = ref(false)
+
+      const imagePreview = ref(null)
+  
+      const previewImage = (event) => {
+        const file = event.target.files[0]
+        if (!file.type.startsWith('image/')) {
+          form.errors.image = 'The selected file is not an image.'
+          return
+        }
+        form.errors.image = null
+        form.image = file
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          imagePreview.value = event.target.result
+        }
+        reader.readAsDataURL(file)
+      }
+  
+      const create = () =>
+        porcessing.value = true;
+        router.post(route('photo.store'), form, {
+          onSuccess: () => {
+            form.reset()
+            imagePreview.value = null
+          },
+        })
+  
+      return {
+        form,
+        imagePreview,
+        previewImage,
+        create,
+      }
+    },
+  }
+  </script>
