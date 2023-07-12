@@ -33,29 +33,13 @@ class DatabaseSeeder extends Seeder
             '.gitignore',
             // file name (storage/app/public/<file_name>)
         ];
-        $file_paths = $fs->files(public_path('storage'));
-        foreach ($file_paths as $file_path) {
-            $file_name = last(explode('/', $file_path));
-            if (!in_array($file_name, $except_file_names)) {
-                $fs->delete($file_path);
-            }
-        }
-
-        \App\Models\Award::factory()->create([
-            'name' => 'Best of grade',
-        ]);
-        \App\Models\Award::factory()->create([
-            'name' => 'Best of juniors',
-        ]);
-        \App\Models\Award::factory()->create([
-            'name' => 'Best of seniors',
-        ]);
-        \App\Models\Award::factory()->create([
-            'name' => 'Best of evening',
-        ]);
-        \App\Models\Award::factory()->create([
-            'name' => 'Best of theme',
-        ]);
+        // $file_paths = $fs->files(public_path('storage'));
+        // foreach ($file_paths as $file_path) {
+        //     $file_name = last(explode('/', $file_path));
+        //     if (!in_array($file_name, $except_file_names)) {
+        //         $fs->delete($file_path);
+        //     }
+        // }
 
         //Create new categories
         \App\Models\Category::factory()->create([
@@ -123,39 +107,9 @@ class DatabaseSeeder extends Seeder
 
         //Create new users and assign photos to them
         \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'is_admin' => true,
-        ]);
-        \App\Models\User::factory()->create([
-            'name' => 'Test User 2',
-            'email' => 'test2@example.com',
-        ]);
-
-        \App\Models\User::factory()->create([
             'name' => 'Deidre Schnetler',
             'email' => 'schnetlerdeidre@gmail.com',
             'is_admin' => true,
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Arnold Bester',
-            'email' => 'arnold@aabcreations.co.za',
-        ]);
-        
-        \App\Models\User::factory()->create([
-            'name' => 'Elsa Schnetler',
-            'email' => 'elsies1@afrihost.co.za',
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Maureen Fourie',
-            'email' => 'Maureen@maureenfourie.co.za',
-        ]);
-        
-        \App\Models\User::factory()->create([
-            'name' => 'Ada Olwage',
-            'email' => 'adaolwage@mweb.co.za',
         ]);
     }
 }
