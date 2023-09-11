@@ -1,6 +1,5 @@
 FROM node:20 as nodebuilder
 WORKDIR /home/node/app
-COPY PhotographyCMS/ .
 RUN apt-get update\
   && apt-get install -y php \
   && curl -sS https://getcomposer.org/installer | php -- \
@@ -8,6 +7,7 @@ RUN apt-get update\
 RUN apt-get install -y php-xml php-mysql php-curl php-common
 RUN composer global require laravel/installer
 RUN composer require laravel/pint
+COPY . .
 RUN composer install
 RUN npm install
 RUN npm run build
