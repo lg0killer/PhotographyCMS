@@ -33,13 +33,13 @@ class DatabaseSeeder extends Seeder
             '.gitignore',
             // file name (storage/app/public/<file_name>)
         ];
-        $file_paths = $fs->files(public_path('photos'));
-        foreach ($file_paths as $file_path) {
-            $file_name = last(explode('/', $file_path));
-            if (!in_array($file_name, $except_file_names)) {
-                $fs->delete($file_path);
-            }
-        }
+        // $file_paths = $fs->files(public_path('photos'));
+        // foreach ($file_paths as $file_path) {
+        //     $file_name = last(explode('/', $file_path));
+        //     if (!in_array($file_name, $except_file_names)) {
+        //         $fs->delete($file_path);
+        //     }
+        // }
 
         \App\Models\Award::factory()->create([
             'name' => 'Best of grade',
