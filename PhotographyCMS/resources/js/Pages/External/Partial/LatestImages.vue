@@ -10,7 +10,7 @@
 
 <script setup>
 import theme from 'tailwindcss/defaultTheme';
-import { Carousel } from 'flowbite-vue';
+import Carousel from '@/Components/Carousel.vue';
 
 defineProps({
     photos: Object,

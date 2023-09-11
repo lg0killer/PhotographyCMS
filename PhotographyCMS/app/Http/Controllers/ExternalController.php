@@ -13,7 +13,7 @@ class ExternalController extends Controller
         return inertia('External/Home', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'photos' => Photo::select('image_path')
+            'photos' => Photo::select('image_path as src')
                 ->orderByDesc('submitted_at')
                 ->take(5)
                 ->get()

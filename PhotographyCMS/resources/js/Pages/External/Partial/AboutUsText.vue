@@ -4,7 +4,7 @@
         About Us
     </h2>
     <hr class="mt-4 mb-4">
-    <img class="float-right" src="storage/ExternalPhotos/pssa_logo.png"/>
+    <img class="float-right w-64" src="/storage/PSSA-Logo.png"/>
     <div class="py-2 flex text_input_label">
         F-Stop is not just a club for serious Photographers or people with expensive cameras;
         it is a club that has been specifically started to help beginners progress with their 

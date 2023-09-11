@@ -75,7 +75,9 @@ class AdminPhotoController extends Controller
                     else
                         $category_id = $category->where('short_code', $category_shortcode)->first()->id;
                     
-                    $path = Storage::put('photos', $image);
+                    //$path = Storage::put('photos', $image);
+                    $path = Storage::putFile('photos', $image,'public');
+                    //$path = Storage::store()
 
                     if ($author)
                         $author->photos()->create([
