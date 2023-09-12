@@ -88,19 +88,6 @@ class AdminPhotoController extends Controller
                             'image' => Storage::url($path),
                             'submitted_at' => $submitted_date,
                         ]);
-                    else
-                        User::create([
-                            'name' => $author_name,
-                            'email' => $author_name . '@example.com',
-                            'password' => 'password',
-                        ])->photos()->create([
-                            'name' => $image_name,
-                            'description' => 'asdasdas',
-                            'category_id' => $category_id,
-                            'image' => Storage::url($path),
-                            'image_path' => $path,
-                            'submitted_at' => $submitted_date,
-                        ]);
                 } catch (\Exception $e) {
                     $errors = Arr::add($errors, $image_name, $e->getMessage());
                 }
