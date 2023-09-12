@@ -74,7 +74,7 @@ class PhotoController extends Controller
             'category_id' => $request->category_id,
             'image' => Storage::url($path)
         ]);
-        return redirect()->route('dashboard')
+        return redirect()->route('dashboard.index')
             ->banner('Photo created successfully!');
     }
 

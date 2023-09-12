@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Photo;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
+use App\Models\StarLevel;
 use App\Models\User;
 use App\Models\Award;
 use Illuminate\Support\Str;
@@ -42,7 +43,7 @@ class AdminPhotoController extends Controller
                 try {
                     $filename = $image->getClientOriginalName();
                     $filename = pathinfo($filename, PATHINFO_FILENAME);
-                    $star_level = explode("_", $filename)[0];
+                    $star_level = Str::upper(explode("_", $filename)[0]);
                     $category_shortcode = Str::upper(explode("_", $filename)[1]);                    
                     $image_name = explode("_", $filename)[2];
 
@@ -60,15 +61,19 @@ class AdminPhotoController extends Controller
                         'author_name' => $author_name,
                         'images' => $image,
                         'date' => $submitted_date,
+                        'star_level' => $star_level,
                     ],[
                         'image_name' => 'required|string|max:255',
                         'category_shortcode' => 'required|string|max:255',
                         'author_name' => 'required|string|max:255',
                         'images' => 'required|image|max:2048',
                         'date' => 'required|date',
+                        'star_level' => 'required|string|max:2',
                     ]);
 
                     $author = User::where('name', $author_name)->first();
+
+                    $starLevel = StarLevel::where('name', $star_level)->first();
 
                     if (Str::startsWith($category_shortcode, 'C'))
                         $category_id = $category->where('short_code', 'C')->first()->id;
@@ -89,6 +94,8 @@ class AdminPhotoController extends Controller
                             'image_path' => $path,
                             'image' => Storage::url($path),
                             'submitted_at' => $submitted_date,
+                            'starlevel_id' => $starLevel->id,
+                            'original_name' => $image->getClientOriginalName(),
                         ]);
                     }
                     else

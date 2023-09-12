@@ -30,6 +30,8 @@ class Photo extends Model
         'category_id',
         'image_path',
         'submitted_at',
+        'starlevel_id',
+        'original_name',
     ];
 
     protected function name(): Attribute {
@@ -67,6 +69,11 @@ class Photo extends Model
     public function category(): BelongsTo
     {
         return $this->BelongsTo(Category::class, 'category_id');
+    }
+
+    public function starLevel(): BelongsTo
+    {
+        return $this->belongsTo(StarLevel::class, 'starlevel_id');
     }
 
     public function theme(): HasOne

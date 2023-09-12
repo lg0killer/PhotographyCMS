@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminPhotoController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\BarometerController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Photo;
 
 /*
@@ -49,9 +50,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return Inertia::render('Dashboard',['photos' => Photo::all()]);
+    // })->name('dashboard');
+    Route::resource('dashboard', DashboardController::class)->only('index');
     Route::resource('vault', UserVaultController::class);
     Route::resource('photo', PhotoController::class)->only('index');
     Route::resource('clubphoto', ClubPhotoController::class);

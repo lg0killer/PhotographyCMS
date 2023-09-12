@@ -58,7 +58,7 @@ const logout = () => {
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
-                                <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="text_input_label">Dashboard</Link>
+                                <Link v-if="$page.props.auth.user" :href="route('dashboard.index')" class="text_input_label">Dashboard</Link>
                                 <template v-else>
                                     <Link :href="route('login')" class="text_input_label">Log in</Link>
 
@@ -110,7 +110,7 @@ const logout = () => {
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                         <div v-if="$page.props.auth.user" class="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink :href="route('dashboard')">
+                            <ResponsiveNavLink :href="route('dashboard.index')">
                                 Dashboard
                             </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button" @click="logout">

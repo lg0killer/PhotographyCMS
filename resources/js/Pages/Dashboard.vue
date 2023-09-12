@@ -6,6 +6,10 @@ import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
+let props = defineProps({
+    photos: Object,
+});
+
 </script>
 
 <template>
@@ -19,10 +23,10 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             </Link> -->
         </template>
 
-        <!-- <div class="box">
+        <div class="box mx-auto py-10 sm:px-6 lg:px-8">
             <h3 class="boxHeader">My Photos</h3>
 
-            <div class="boxEmpty" v-if="!photos.data.length">
+            <div class="boxEmpty" v-if="!photos.data">
                 <h3 class="text-gray-800 dark:text-gray-200 leading-tight p-1">No images uploaded</h3>
             </div>
             <div v-else>
@@ -36,13 +40,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             </div>
         </div>
 
-
-        <div class="box">
-            <h3 class="boxHeader">My Submissions</h3>
-            <div class="flex justify-center pb-4" v-if="!submittedPhotos.length">
-                <h3 class="text-gray-800 dark:text-gray-200 leading-tight p-1">No images submitted</h3>
-            </div>
-        </div> -->
     </AppLayout>
 </template>
 
