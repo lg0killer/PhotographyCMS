@@ -151,7 +151,6 @@ class AdminPhotoController extends Controller
     {
         $photo->awards()->detach();
         $photo->delete();
-        Storage::delete($photo->image_path);
         return redirect()->back()
             ->with('success', 'Photo deleted successfully!');
     }

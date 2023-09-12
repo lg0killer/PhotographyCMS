@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Theme;
 use App\Models\Award;
+use Illuminate\Support\Facades\File;
 
 class Photo extends Model
 {
@@ -38,12 +39,24 @@ class Photo extends Model
         );
     }
 
-    protected function imagePath(): Attribute {
-        return Attribute::make(
-            //get: fn (string $value) => asset("storage/".$value),
-            get: fn (string $value) => asset($value),
-            set: fn (string $value) => $value,
-        );
+    // protected function imagePath(): Attribute {
+    //     return Attribute::make(
+    //         //get: fn (string $value) => asset("storage/".$value),
+    //         get: fn (string $value) => asset($value),
+    //         set: fn (string $value) => $value,
+    //     );
+    // }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        Photo::deleted(function($photo){
+            $file = public_path().'/'.$photo->image_path;
+            if(File::isFile($file)){
+                File::delete($file);
+            }
+        });
     }
 
     public function owner(): BelongsTo

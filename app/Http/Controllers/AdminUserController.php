@@ -12,7 +12,7 @@ class AdminUserController extends Controller
     {
         return inertia('Admin/User/Index',[
             'users' => User::query()
-                ->select('id', 'name', 'email','is_admin')
+                ->select('id', 'name', 'email','is_admin','email_verified_at')
                 ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
                 ->when(request('role'), fn ($query, $role) => $query->whereRole($role))
                 ->when(request('status'), fn ($query, $status) => $query->whereStatus($status))
@@ -63,7 +63,13 @@ class AdminUserController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'is_admin' => ['required', 'integer', 'min:0', 'max:1'],
+            //'email_verified_at' => ['nullable', 'date'],
         ]));
+
+        if ($request->email_verified_at) {
+            $user->markEmailAsVerified();
+        }
+        
 
         if ($request->password) {
             $user->update($request->validate([
@@ -72,5 +78,12 @@ class AdminUserController extends Controller
         }
 
         return redirect()->route('admin.user.index')->with('success', 'User updated.');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('admin.user.index')->with('success', 'User deleted.');
     }
 }

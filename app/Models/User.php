@@ -53,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'boolean',
     ];
 
     /**
@@ -71,6 +71,18 @@ class User extends Authenticatable implements MustVerifyEmail
             get: fn ($value) => $value,
             set: fn ($value) => Hash::make($value),
         );
+    }
+
+    protected static function booted()
+    {
+        parent::boot();
+
+        static::deleting(function(User $user) { // before delete() method call this
+            for ($i = 0; $i < count($user->photos); $i++) {
+                $user->photos[$i]->delete();
+            }
+            $user->barometers()->delete();
+        });
     }
 
     public function photos(): HasMany

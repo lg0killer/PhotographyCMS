@@ -15,7 +15,12 @@
                         <span class="award_yellow">{{ award.name }}</span>
                     </div>
                 </div>
-                <img class="object-center" :src="photo.image_path"/>
+                <div v-if="ClubInfo">
+                    <img class="object-center" :src="photo.image_path"/>
+                </div>
+                <div v-else>
+                    <img class="object-center" :src="'../' + photo.image_path"/>
+                </div>
             </div>
         </div>
         <div v-if="UserInfo">

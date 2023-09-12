@@ -4,8 +4,11 @@ import { useForm } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { Link } from '@inertiajs/vue3';
+import RedButton from '@/Components/RedButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Checkbox from '@/Components/Checkbox.vue';
+import DeleteUser from '@/Pages/Admin/User/Partials/DeleteUser.vue';
 
 const props = defineProps({
     user: Object,
@@ -18,12 +21,14 @@ const form = useForm({
     password: '',
     password_confirmation: '',
     is_admin: props.user.is_admin ? true : false,
+    email_verified_at: props.user.email_verified_at ? true : false,
 });
 
 const update = () => {
         form.transform(data => ({
             ...data,
             is_admin: form.is_admin ? 1 : 0,
+            email_verified_at: form.email_verified_at ? new Date().toISOString().slice(0, 19).replace('T', ' ') : null,
         })).put(route('admin.user.update', { user: props.user.id }));
     };
 </script>
@@ -87,11 +92,19 @@ const update = () => {
                     <InputError :message="form.errors.is_admin" class="mt-2" />
                 </div>
 
-                <div class="col-span-4" dir="rtl">
+                <!-- add an email verified tick box and set date to today-->
+                <div class="col-span-3">
+                    <InputLabel for="email_verified_at" value="Email Verified" />
+                    <input type="checkbox" v-model="form.email_verified_at" id="email_verified_at" :checked="form.email_verified_at" :value="form.email_verified_at" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <InputError :message="form.errors.email_verified_at" class="mt-2" />
+                </div>
+
+                <div class="col-span-4 flex justify-between" dir="rtl">
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         <span v-if="form.processing">Updating</span>
                         <span v-else>Update</span>
                     </PrimaryButton>
+                    <DeleteUser :user="props.user" />
                 </div>
             </div>
         </form>
