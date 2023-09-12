@@ -76,10 +76,12 @@ class AdminPhotoController extends Controller
                         $category_id = $category->where('short_code', $category_shortcode)->first()->id;
                     
                     //$path = Storage::put('photos', $image);
-                    $path = Storage::putFile('photos', $image,'public');
+                    
                     //$path = Storage::store()
 
                     if ($author)
+                    {
+                        $path = Storage::putFile('photos', $image,'public');
                         $author->photos()->create([
                             'name' => $image_name,
                             'description' => 'asdasdas',
@@ -88,6 +90,10 @@ class AdminPhotoController extends Controller
                             'image' => Storage::url($path),
                             'submitted_at' => $submitted_date,
                         ]);
+                    }
+                    else
+                        // raise exception if author does not exist
+                        throw new \Exception('Author does not exist');
                 } catch (\Exception $e) {
                     $errors = Arr::add($errors, $image_name, $e->getMessage());
                 }
