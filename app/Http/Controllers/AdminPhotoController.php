@@ -19,7 +19,22 @@ class AdminPhotoController extends Controller
     public function index()
     {
         return inertia('Admin/Photo/Index',[
-            'photos' => Photo::with('category', 'owner', 'awards')->orderByDesc('created_at')->paginate(10),
+            'photos' => Photo::query()
+                ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
+                ->when(request('year'), fn ($query) => $query->whereYear('submitted_at', request('year')))
+                ->when(request('month'), fn ($query) => $query->whereMonth('submitted_at', request('month')))
+                ->when(request('category'), fn ($query) => $query->whereHas('category', fn ($query) => $query->where('name', request('category'))))
+                ->when(request('photographer'), function ($query, $photographer) {
+                    $query->whereHas('owner', function ($query) use ($photographer) {
+                        $query->where('name', 'like', "%{$photographer}%");
+                    });
+                })
+                ->with('category', 'owner', 'awards')
+                ->orderByDesc('created_at')
+                ->paginate(10)
+                ->withQueryString(),
+            'filters' => request()->only(['awarded','year','month','category','photographer']),
+            'categories' => Category::all(),
             'total_photos' => Photo::count(),
         ]);
     }
