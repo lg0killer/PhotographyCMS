@@ -19,7 +19,7 @@ const form = useForm({
     name: props.photo.name,
     category: props.photo.category.name,
     submitted_at: props.photo.submitted_at,
-    score: props.photo.score,
+    score: props.photo.score || 0,
     awards: props.photo.awards.map((award) => award.id),
 });
 

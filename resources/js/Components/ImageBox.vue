@@ -25,9 +25,11 @@
         </div>
         <div v-if="UserInfo">
             <div>{{ photo.name }}</div>
-            <div>{{ photo.category.name }}</div>
-            <div v-if="photo.submitted_at">{{ photo.submitted_at }}</div>
-            <div v-if="photo.score">{{ photo.score }}/15</div>
+            <div v-if="photo.score">Score: {{ photo.score }}</div>
+            <div class="flex justify-between">
+                <div v-if="photo.category">{{ photo.category.name }}</div>
+                <div v-if="photo.submitted_at">{{ photo.submitted_at .replace(' ','/') }}</div>
+            </div>
         </div>
 
         <div v-if="ClubInfo">
@@ -38,7 +40,7 @@
         <div v-if="AdminInfo">
             <div>{{ photo.name }}</div>
             <div v-if="photo.owner">{{ photo.owner.name }}</div>
-            <div v-if="photo.score">{{ photo.score }}/15</div>
+            <div v-if="photo.score">Score: {{ photo.score }}</div>
             <div class="flex justify-between">
                 <div v-if="photo.category">{{ photo.category.name }}</div>
                 <div v-if="photo.submitted_at">{{ photo.submitted_at .replace(' ','/') }}</div>

@@ -150,8 +150,10 @@ class AdminPhotoController extends Controller
             'name' => ['required', 'max:255'],
             'category_id' => ['required', 'exists:categories,id'],
             'awards' => ['array', 'exists:awards,id'],
+            'score' => 'integer|min:0|max:15',
             'submitted_at' => 'required|date_format:Y-m-d',
         ], [
+            'score.numeric' => 'You can only submit a score beteen 0 and 15' . $request->score,
             'submitted_at.date' => 'The submitted at does not match the format m Y. is currently ' . $request->submitted_at,
         ]);
 
