@@ -20,11 +20,6 @@ let dates = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','
                     {{ date }}
                 </div>
             </th>
-            <th>
-                <div class="px-6 py-3">
-                    Total
-                </div>
-            </th>
           </tr>
         </thead>
 
@@ -52,14 +47,6 @@ let dates = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','
                         -
                     </div>
                 </td>
-                <td class="px-6 py-3">
-                    <div v-if="person.total_points" class="ml-2">
-                        {{ person.total_points }}
-                    </div>
-                    <div v-else class="ml-2">
-                        -
-                    </div>
-                </td> 
             </tr>
         </tbody>
       </table>
