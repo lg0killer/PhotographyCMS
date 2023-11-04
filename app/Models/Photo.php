@@ -28,6 +28,7 @@ class Photo extends Model
         'description',
         'image',
         'category_id',
+        'score',
         'image_path',
         'submitted_at',
         'starlevel_id',
