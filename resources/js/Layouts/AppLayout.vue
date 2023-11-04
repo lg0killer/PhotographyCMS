@@ -230,6 +230,18 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('clubphoto.index')" :active="route().current('clubphoto.index')">
+                            Club Photos
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('photo.index')" :active="route().current('photo.index')">
+                            My Photos
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('vault.index')" :active="route().current('vault.index')">
+                            My Vault
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('barometer.index')" :active="route().current('barometer.index')">
+                            Barometer
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
