@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
             // folder name (storage/app/public/<folder_name>)
         ];
         $folder_paths = $fs->directories(public_path('storage'));
-        foreach ($folder_paths as $folder_path) {
-            $folder_name = last(explode('/', $folder_path));
-            if (!in_array($folder_name, $except_folder_names)) {
-                $fs->deleteDirectory($folder_path);
-            }
-        }
+        // foreach ($folder_paths as $folder_path) {
+        //     $folder_name = last(explode('/', $folder_path));
+        //     if (!in_array($folder_name, $except_folder_names)) {
+        //         $fs->deleteDirectory($folder_path);
+        //     }
+        // }
 
         // delete files
         $except_file_names = [
@@ -126,6 +126,25 @@ class DatabaseSeeder extends Seeder
             'name' => 'Deidre Schnetler',
             'email' => 'schnetlerdeidre@gmail.com',
             'is_admin' => true,
+        ]);
+
+        \App\Models\StarLevel::factory()->create([
+            'name' => '1',
+        ]);
+        \App\Models\StarLevel::factory()->create([
+            'name' => '2',
+        ]);
+        \App\Models\StarLevel::factory()->create([
+            'name' => '3',
+        ]);
+        \App\Models\StarLevel::factory()->create([
+            'name' => '4',
+        ]);
+        \App\Models\StarLevel::factory()->create([
+            'name' => '5',
+        ]);
+        \App\Models\StarLevel::factory()->create([
+            'name' => '5H',
         ]);
     }
 }

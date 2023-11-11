@@ -22,15 +22,18 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.8",
-        "@fullcalendar/vue3": "^6.1.8",
+        "@fullcalendar/core": "^6.1.9",
+        "@fullcalendar/daygrid": "^6.1.9",
+        "@fullcalendar/vue3": "^6.1.9",
         "@hcaptcha/vue3-hcaptcha": "^1.2.1",
         "@headlessui/vue": "^1.7.14",
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/vue3": "^1.0.6",
         "@vuepic/vue-datepicker": "^5.2.0",
+        "apexcharts": "^3.44.0",
         "flowbite": "^1.6.5",
         "flowbite-vue": "^0.0.12",
-        "font-awesome": "^4.7.0"
+        "font-awesome": "^4.7.0",
+        "vue3-apexcharts": "^1.4.4"
     }
 }
