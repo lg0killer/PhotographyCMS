@@ -5,9 +5,11 @@ import Pagination from '@/Components/Pagination.vue';
 import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import CategoryDonutChart from '@/Components/CategoryDonutChart.vue';
 
 let props = defineProps({
-    photos: Object,
+    user_data: Object,
+    club_data: Object,
 });
 
 </script>
@@ -23,19 +25,15 @@ let props = defineProps({
             </Link> -->
         </template>
 
-        <div class="box mx-auto py-10 sm:px-6 lg:px-8">
-            <h3 class="boxHeader">My Photos</h3>
-
-            <div class="boxEmpty" v-if="!photos.data">
+        <div class="box mx-auto py-5">
+            <h3 class="boxHeader">Submission Statistics</h3>
+            <div class="boxEmpty" v-if="!user_data">
                 <h3 class="text-gray-800 dark:text-gray-200 leading-tight p-1">No images uploaded</h3>
             </div>
-            <div v-else>
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                    <ImageBoxGallery :edit=true :photos="photos"/>
-                </div>
-
-                <div v-if="photos.data.length" class="w-full flex justify-center">
-                    <Pagination :links="photos.links" class="text-gray-800 dark:text-gray-200"/>
+            <div v-else class="">
+                <div class="s:columns-1 md:columns-2 px-auto">
+                    <CategoryDonutChart :series="user_data.series" :chartOptions="user_data.chartOptions"></CategoryDonutChart>
+                    <CategoryDonutChart :series="club_data.series" :chartOptions="club_data.chartOptions"></CategoryDonutChart>
                 </div>
             </div>
         </div>
@@ -46,7 +44,7 @@ let props = defineProps({
 
 <style scoped>
     .box {
-        @apply flex flex-col border m-4 border-gray-100 dark:border-gray-700 rounded-md shadow-sm dark:text-gray-300
+        @apply flex flex-col m-4 border-gray-100 dark:border-gray-700 rounded-md shadow-sm dark:text-gray-300
     }
 
     .boxHeader {
