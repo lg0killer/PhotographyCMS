@@ -51,8 +51,8 @@ class BarometerController extends Controller
 
     public function store(Request $request)
     {
-        $submitted_date = $request->month .'-'. $request->year;
-        $submitted_date = Carbon::createFromFormat('m-Y', $submitted_date)->format('Y-m-d');
+        $submitted_date = '01-'. $request->month .'-'. $request->year;
+        $submitted_date = Carbon::createFromFormat('d-m-Y', $submitted_date)->format('Y-m-d');
 
         foreach ($request->points as $user_id => $points) {
             DB::table('barometers')
