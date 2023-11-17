@@ -16,11 +16,18 @@
                     </div>
                 </div>
                 <div v-if="ClubInfo">
-                    <img class="object-center" :src="photo.image_path"/>
+                    <img @click="showSingle(photo.image_path)" class="object-center" :src="photo.image_path"/>
                 </div>
                 <div v-else>
-                    <img class="object-center" :src="'../' + photo.image_path"/>
+                    <img v-bind:style="{cursor:'zoom-in'}" @click="showSingle('../' + photo.image_path)" class="object-center" :src="'../' + photo.image_path"/>
                 </div>
+                <div>
+                        <vue-easy-lightbox
+                        :visible="visibleRef"
+                        :imgs="imgsRef"
+                        @hide="onHide"
+                        ></vue-easy-lightbox>
+                    </div>
             </div>
         </div>
         <div v-if="UserInfo">
@@ -52,6 +59,21 @@
 <script setup>
 import Box from '@/Components/Box.vue'
 import { router, Link } from '@inertiajs/vue3'
+import { ref } from 'vue';
+
+const visibleRef = ref(false)
+const imgsRef = ref([])
+
+const onShow = () => {
+      visibleRef.value = true
+    }
+
+const showSingle = (image_path) => {
+      imgsRef.value = image_path
+      onShow()
+    }
+
+const onHide = () => (visibleRef.value = false)
 
 function editPhoto(photo) {
     router.get(route('admin.photo.edit', photo))
