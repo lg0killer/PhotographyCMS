@@ -34,6 +34,7 @@
         "flowbite": "^1.6.5",
         "flowbite-vue": "^0.0.12",
         "font-awesome": "^4.7.0",
+        "vue-easy-lightbox": "^1.16.0",
         "vue3-apexcharts": "^1.4.4"
     }
 }
