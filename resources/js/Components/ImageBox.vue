@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div v-if="ClubInfo">
-                    <img @click="showSingle(photo.image_path)" class="object-center" :src="photo.image_path"/>
+                    <img v-bind:style="{cursor:'zoom-in'}" @click="showSingle(photo.image_path)" class="object-center" :src="photo.image_path"/>
                 </div>
                 <div v-else>
                     <img v-bind:style="{cursor:'zoom-in'}" @click="showSingle('../' + photo.image_path)" class="object-center" :src="'../' + photo.image_path"/>
