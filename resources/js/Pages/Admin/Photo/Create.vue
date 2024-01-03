@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import {ref,watch} from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import ImageUpload from '@/Components/ImageUpload.vue';
 
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -91,6 +92,7 @@ function submitForm() {
 
 <template>
   <AppLayout class="!overflow-hidden">
+    <ImageUpload></ImageUpload>
     <form @submit.prevent="submitForm">
       <div class="flex flex-col gap-4 p-4">
         <div class="flex flex-wrap flex-col m-4">
