@@ -16,12 +16,12 @@ class BarometerController extends Controller
             'barometer' => User::query()
                 ->with(['barometers' => function ($query) {
                     $query
-                    ->whereYear('month', 2023)
+                    ->whereYear('month', 2024)
                     ->orderBy('month', 'asc');
                 }])
                 ->withCount(['barometers as total_points' => function ($query) {
                     $query->select(DB::raw('SUM(points) as points'))
-                    ->whereYear('month', 2023);
+                    ->whereYear('month', 2024);
                 }])
                 ->orderBy('total_points', 'desc')
                 ->paginate(50)
