@@ -12,6 +12,7 @@
         "laravel/jetstream": "^3.2",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "rahulhaque/laravel-filepond": "^10",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

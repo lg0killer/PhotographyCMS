@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use RahulHaque\Filepond\Facades\Filepond;
+
 
 class AdminPhotoController extends Controller
 {
@@ -125,6 +127,90 @@ class AdminPhotoController extends Controller
                 return redirect()->back()->withErrors($errors);
             return redirect(route('admin.photo.index'))->banner('success', 'Photos uploaded successfully');
         }            
+    }
+
+    public function storev2(Request $request)
+    {
+        $errors = [];
+        $category = Category::all();
+        // foreach ($request->input('gallery') as $index=>$image) {
+        //     $pond = Filepond::field($image);
+        //     $filename = $pond->
+        //     dd($filename);
+        //     dd($image);
+        // }
+        $fileInfos = Filepond::field($request->input('gallery'))->getFile();
+        foreach ($fileInfos as $fileinfo) {
+            try {
+                $filename = $fileinfo->getClientOriginalName();
+
+                $filename = pathinfo($filename, PATHINFO_FILENAME);
+
+                $star_level = Str::upper(explode("_", $filename)[0]);
+                $category_shortcode = Str::upper(explode("_", $filename)[1]);                    
+                $image_name = explode("_", $filename)[2];
+
+                $author_name = explode("_", $filename)[3];
+                $author_name = str_replace("copy", "", $author_name);
+                $author_name = explode(".", $author_name)[0];
+                $author_name = trim($author_name);
+
+                $submitted_date = $request->month .'-'. $request->year;
+                $submitted_date = Carbon::createFromFormat('m-Y', $submitted_date)->format('Y-m-d');
+
+                $validator = Validator::make([
+                    'image_name' => $image_name,
+                    'category_shortcode' => $category_shortcode,
+                    'author_name' => $author_name,
+                    'date' => $submitted_date,
+                    'star_level' => $star_level,
+                ],[
+                    'image_name' => 'required|string|max:255',
+                    'category_shortcode' => 'required|string|max:255',
+                    'author_name' => 'required|string|max:255',
+                    'date' => 'required|date',
+                    'star_level' => 'required|string|max:2',
+                ]);
+
+                $author = User::where('name', $author_name)->first();
+
+                $starLevel = StarLevel::where('name', $star_level)->first();
+
+                if (Str::startsWith($category_shortcode, 'C'))
+                    $category_id = $category->where('short_code', 'C')->first()->id;
+                else
+                    $category_id = $category->where('short_code', $category_shortcode)->first()->id;
+                
+                //$path = Storage::put('photos', $image);
+                
+                //$path = Storage::store()
+
+                if ($author)
+                {
+                    $path = str('photos/'. $fileinfo->getFilename());
+                    $author->photos()->create([
+                        'name' => $image_name,
+                        'description' => 'asdasdas',
+                        'category_id' => $category_id,
+                        'image_path' => $path,
+                        'image' => Storage::url($path),
+                        'submitted_at' => $submitted_date,
+                        'starlevel_id' => $starLevel->id,
+                        'original_name' => $filename,
+                    ]);
+                    $fileinfo->move('photos');
+                }
+                else
+                    // raise exception if author does not exist
+                    throw new \Exception('Author does not exist');
+            } catch (\Exception $e) {
+                $errors = Arr::add($errors, $image_name, $e->getMessage());
+            }
+        }
+
+        if (count($errors) > 0)
+            return redirect()->back()->withErrors($errors);
+        return redirect(route('admin.photo.index'))->banner('success', 'Photos uploaded successfully');
     }
 
     public function edit(Photo $photo)

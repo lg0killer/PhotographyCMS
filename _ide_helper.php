@@ -4806,6 +4806,102 @@
             /**
      * 
      *
+     * @see \Illuminate\Encryption\Encrypter
+     */ 
+        class Crypt {
+                    /**
+         * Determine if the given key and cipher combination is valid.
+         *
+         * @param string $key
+         * @param string $cipher
+         * @return bool 
+         * @static 
+         */ 
+        public static function supported($key, $cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::supported($key, $cipher);
+        }
+                    /**
+         * Create a new encryption key for the given cipher.
+         *
+         * @param string $cipher
+         * @return string 
+         * @static 
+         */ 
+        public static function generateKey($cipher)
+        {
+                        return \Illuminate\Encryption\Encrypter::generateKey($cipher);
+        }
+                    /**
+         * Encrypt the given value.
+         *
+         * @param mixed $value
+         * @param bool $serialize
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encrypt($value, $serialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encrypt($value, $serialize);
+        }
+                    /**
+         * Encrypt a string without serialization.
+         *
+         * @param string $value
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\EncryptException
+         * @static 
+         */ 
+        public static function encryptString($value)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->encryptString($value);
+        }
+                    /**
+         * Decrypt the given value.
+         *
+         * @param string $payload
+         * @param bool $unserialize
+         * @return mixed 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decrypt($payload, $unserialize = true)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decrypt($payload, $unserialize);
+        }
+                    /**
+         * Decrypt the given string without unserialization.
+         *
+         * @param string $payload
+         * @return string 
+         * @throws \Illuminate\Contracts\Encryption\DecryptException
+         * @static 
+         */ 
+        public static function decryptString($payload)
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->decryptString($payload);
+        }
+                    /**
+         * Get the encryption key that the encrypter is currently using.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getKey()
+        {
+                        /** @var \Illuminate\Encryption\Encrypter $instance */
+                        return $instance->getKey();
+        }
+         
+    }
+            /**
+     * 
+     *
      * @see https://carbon.nesbot.com/docs/
      * @see https://github.com/briannesbitt/Carbon/blob/master/src/Carbon/Factory.php
      * @method static \Illuminate\Support\Carbon create($year = 0, $month = 1, $day = 1, $hour = 0, $minute = 0, $second = 0, $tz = null)
@@ -19378,6 +19474,121 @@
      
 }
 
+    namespace RahulHaque\Filepond\Facades { 
+            /**
+     * 
+     *
+     * @see \RahulHaque\Filepond\Filepond
+     */ 
+        class Filepond {
+                    /**
+         * Set the FilePond field name
+         *
+         * @return \RahulHaque\Filepond\Filepond 
+         * @static 
+         */ 
+        public static function field($field, $checkOwnership = true)
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->field($field, $checkOwnership);
+        }
+                    /**
+         * Return file object from the field
+         *
+         * @return array|\Illuminate\Http\UploadedFile 
+         * @static 
+         */ 
+        public static function getFile()
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->getFile();
+        }
+                    /**
+         * Get the filepond file as Data URL string
+         * More at - https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+         *
+         * @return array|string 
+         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+         * @static 
+         */ 
+        public static function getDataURL()
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->getDataURL();
+        }
+                    /**
+         * Get the filepond database model for the FilePond field
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getModel()
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->getModel();
+        }
+                    /**
+         * Copy the FilePond files to destination
+         *
+         * @return array 
+         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+         * @static 
+         */ 
+        public static function copyTo($path, $disk = '', $visibility = '')
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->copyTo($path, $disk, $visibility);
+        }
+                    /**
+         * Copy the FilePond files to destination and delete
+         *
+         * @return array 
+         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+         * @static 
+         */ 
+        public static function moveTo($path, $disk = '', $visibility = '')
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->moveTo($path, $disk, $visibility);
+        }
+                    /**
+         * Delete files related to FilePond field
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function delete()
+        {
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        $instance->delete();
+        }
+                    /**
+         * 
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getTempDisk()
+        {            //Method inherited from \RahulHaque\Filepond\AbstractFilepond         
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->getTempDisk();
+        }
+                    /**
+         * 
+         *
+         * @return \RahulHaque\Filepond\Filepond 
+         * @static 
+         */ 
+        public static function setTempDisk($tempDisk)
+        {            //Method inherited from \RahulHaque\Filepond\AbstractFilepond         
+                        /** @var \RahulHaque\Filepond\Filepond $instance */
+                        return $instance->setTempDisk($tempDisk);
+        }
+         
+    }
+     
+}
+
     namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
@@ -19953,6 +20164,28 @@
      
 }
 
+    namespace Illuminate\Validation { 
+            /**
+     * 
+     *
+     */ 
+        class Rule {
+                    /**
+         * 
+         *
+         * @see \RahulHaque\Filepond\FilepondServiceProvider::boot()
+         * @param mixed $args
+         * @static 
+         */ 
+        public static function filepond($args)
+        {
+                        return \Illuminate\Validation\Rule::filepond($args);
+        }
+         
+    }
+     
+}
+
 
 namespace  { 
             class App extends \Illuminate\Support\Facades\App {}
@@ -19965,6 +20198,7 @@ namespace  {
             class Cache extends \Illuminate\Support\Facades\Cache {}
             class Config extends \Illuminate\Support\Facades\Config {}
             class Cookie extends \Illuminate\Support\Facades\Cookie {}
+            class Crypt extends \Illuminate\Support\Facades\Crypt {}
             class Date extends \Illuminate\Support\Facades\Date {}
             class DB extends \Illuminate\Support\Facades\DB {}
             class Eloquent extends \Illuminate\Database\Eloquent\Model {             
@@ -23880,6 +24114,7 @@ namespace  {
             class Vite extends \Illuminate\Support\Facades\Vite {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Agent extends \Jenssegers\Agent\Facades\Agent {}
+            class Filepond extends \RahulHaque\Filepond\Facades\Filepond {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

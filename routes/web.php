@@ -15,6 +15,8 @@ use App\Http\Controllers\ExternalController;
 use App\Http\Controllers\BarometerController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Photo;
+use RahulHaque\Filepond\Facades\Filepond;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +74,7 @@ Route::middleware([
     Route::get('dashboard', [AdminController::class, 'index']) ->name('dashboard');
     Route::resource('user', AdminUserController::class);
     Route::resource('photo', AdminPhotoController::class);
+    Route::put('photo', [AdminPhotoController::class, 'storev2']) -> name('photo.store');
     Route::resource('category', CategoryController::class);
 });
 
