@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
+use Carbon\Carbon;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
+
+            User::where('email', $email)->first()->update([
+                'last_login' => Carbon::now()
+            ]);
 
             return Limit::perMinute(5)->by($email.$request->ip());
         });
