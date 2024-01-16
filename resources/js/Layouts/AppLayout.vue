@@ -60,11 +60,11 @@ const logout = () => {
                                     My Photos
                                 </NavLink>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('vault.index')" :active="route().current('vault.index')">
                                     My Vault
                                 </NavLink>
-                            </div>
+                            </div> -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('barometer.index')" :active="route().current('barometer.index')">
                                     Barometer
@@ -236,9 +236,9 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('photo.index')" :active="route().current('photo.index')">
                             My Photos
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('vault.index')" :active="route().current('vault.index')">
+                        <!-- <ResponsiveNavLink :href="route('vault.index')" :active="route().current('vault.index')">
                             My Vault
-                        </ResponsiveNavLink>
+                        </ResponsiveNavLink> -->
                         <ResponsiveNavLink :href="route('barometer.index')" :active="route().current('barometer.index')">
                             Barometer
                         </ResponsiveNavLink>
