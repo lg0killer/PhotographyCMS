@@ -12,7 +12,7 @@ class AdminUserController extends Controller
     {
         return inertia('Admin/User/Index',[
             'users' => User::query()
-                ->select('id', 'name', 'email','is_admin','email_verified_at')
+                ->select('id', 'name', 'email','is_admin','email_verified_at','last_login')
                 ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
                 ->when(request('role'), fn ($query, $role) => $query->whereRole($role))
                 ->when(request('status'), fn ($query, $status) => $query->whereStatus($status))
@@ -58,7 +58,6 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        //dd($request->all());
         $user->update($request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -69,7 +68,6 @@ class AdminUserController extends Controller
         if ($request->email_verified_at) {
             $user->markEmailAsVerified();
         }
-        
 
         if ($request->password) {
             $user->update($request->validate([

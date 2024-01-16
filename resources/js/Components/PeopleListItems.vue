@@ -8,6 +8,9 @@
               Name
             </th>
             <th scope="col" class="px-6 py-3">
+              Last Activity
+            </th>
+            <th scope="col" class="px-6 py-3">
               Status
             </th>
             <th scope="col" class="px-6 py-3">
@@ -39,6 +42,14 @@
                 </div>
               </div>
             </th>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div v-if="person.last_login">
+                {{ person.last_login }}
+              </div>
+              <div v-else>
+                Never
+              </div>
+            </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <div v-if="person.blocked">
                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
