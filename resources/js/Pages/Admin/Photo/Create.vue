@@ -24,9 +24,13 @@ let form = useForm({
   images: [],
   month: new Date().getMonth()+1,
   year: new Date().getFullYear(),
+  image_scores: [],
+  image_names: [],
 });
 
 let images = ref([]);
+let image_names = ref([]);
+let image_scores = ref([]);
 
 function previewImages(event) {
   const files = event.target.files;
@@ -45,6 +49,8 @@ function previewImagesFiles(files) {
         file,
         preview: e.target.result,
       });
+      image_names.value.push(file.name);
+      image_scores.value.push(0);
     };
     reader.readAsDataURL(file);
   }
@@ -52,11 +58,15 @@ function previewImagesFiles(files) {
 
 function removeImage(index) {
   images.value.splice(index, 1);
+  image_names.value.splice(index, 1);
+  image_scores.value.splice(index, 1);
 }
 
 function submitForm() {
   for (let i = 0; i < images.value.length; i++) {
     form.images.push(images.value[i].file)
+    form.image_scores.push(image_scores.value[i])
+    form.image_names.push(image_names.value[i])
   }
   //form.month = month['month']+1;
   //form.year = month['year'];
@@ -107,7 +117,19 @@ function submitForm() {
         <div class="flex flex-wrap justify-center flex-auto gap-4">
           <div v-for="(image, index) in images" :key="index" class="flex flex-col w-1/4">
             <img :src="image.preview" class="w-full h-auto" />
-            <TextInput :value="image.file.name" class="w-full my-2" />
+            <TextInput 
+              @update:model-value="image_names[index] = $event" 
+              :value="image_names[index]" 
+              class="w-full"
+            />
+            <TextInput 
+              @update:model-value="image_scores[index] = $event" 
+              :value="image_scores[index]" 
+              type="number"
+              max="15"
+              min="0"
+              class="w-full"
+            />
             <SecondaryButton @click="removeImage(index)">Delete image {{ index }}</SecondaryButton>
             <InputError :message="form.errors[image.file.name.split('.').slice(0, -1).join('.')]" class="mt-2" />
           </div>
