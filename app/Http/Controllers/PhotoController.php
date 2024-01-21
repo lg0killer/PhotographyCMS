@@ -20,6 +20,9 @@ class PhotoController extends Controller
         $items = Auth::user()
         ->photos()
         ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
+        ->when(request('year'), fn ($query) => $query->whereYear('submitted_at', request('year')))
+        ->when(request('month'), fn ($query) => $query->whereMonth('submitted_at', request('month')))
+        ->when(request('category'), fn ($query) => $query->whereHas('category', fn ($query) => $query->where('name', request('category'))))
         ->with('category', 'awards')
         ->orderByDesc('submitted_at')
         ->paginate(10)
@@ -29,7 +32,8 @@ class PhotoController extends Controller
             "Photo/Index",
             [
                 'photos' => $items,
-                'filters' => request()->only(['awarded']),
+                'filters' => request()->only(['awarded','year','month','category']),
+                'categories' => Category::all()
             ]
         );
 

@@ -3,19 +3,10 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import ImageBoxGallery from '@/Components/ImageBoxGallery.vue'
 import ListSection from '@/Components/ListSection.vue';
 import Pagination from '@/Components/Pagination.vue'
-import TextInput from '@/Components/TextInput.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import Checkbox from '@/Components/Checkbox.vue';
 import { router } from '@inertiajs/vue3';
 import { ref, watch, onMounted, computed } from 'vue';
 
 import { initFlowbite } from 'flowbite'
-
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
