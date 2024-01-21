@@ -43,7 +43,9 @@ class AdminPhotoController extends Controller
 
     public function create()
     {
-        return inertia('Admin/Photo/Create');
+        return inertia('Admin/Photo/Create', [
+            'awards' => Award::all(),
+        ]);
     }
 
     public function store(Request $request)
@@ -58,11 +60,13 @@ class AdminPhotoController extends Controller
 
             foreach ($request->file('images') as $index =>$image) {
                 try {
-                    $filename = $image->getClientOriginalName();
+                    $filename = $request->image_names[$index];
                     $filename = pathinfo($filename, PATHINFO_FILENAME);
                     $star_level = Str::upper(explode("_", $filename)[0]);
                     $category_shortcode = Str::upper(explode("_", $filename)[1]);                    
                     $image_name = explode("_", $filename)[2];
+
+                    $score = $request->image_scores[$index];
 
                     $author_name = explode("_", $filename)[3];
                     $author_name = str_replace("copy", "", $author_name);
@@ -72,6 +76,9 @@ class AdminPhotoController extends Controller
                     $submitted_date = $request->month .'-'. $request->year;
                     $submitted_date = Carbon::createFromFormat('m-Y', $submitted_date)->format('Y-m-d');
 
+                    // $awards = collect($request->image_awards[$index])->unique()->toArray();
+                    $awards = [];
+
                     $validator = Validator::make([
                         'image_name' => $image_name,
                         'category_shortcode' => $category_shortcode,
@@ -79,6 +86,8 @@ class AdminPhotoController extends Controller
                         'images' => $image,
                         'date' => $submitted_date,
                         'star_level' => $star_level,
+                        'score' => $score,
+                        'awards' => $request->awards,
                     ],[
                         'image_name' => 'required|string|max:255',
                         'category_shortcode' => 'required|string|max:255',
@@ -86,6 +95,8 @@ class AdminPhotoController extends Controller
                         'images' => 'required|image|max:2048',
                         'date' => 'required|date',
                         'star_level' => 'required|string|max:2',
+                        'score' => 'required|integer|min:0|max:15',
+                        'awards' => 'array|exists:awards,id',
                     ]);
 
                     $author = User::where('name', $author_name)->first();
@@ -113,6 +124,8 @@ class AdminPhotoController extends Controller
                             'submitted_at' => $submitted_date,
                             'starlevel_id' => $starLevel->id,
                             'original_name' => $image->getClientOriginalName(),
+                            'score' => $score,
+                            'awards' => $awards,
                         ]);
                     }
                     else
@@ -127,90 +140,6 @@ class AdminPhotoController extends Controller
                 return redirect()->back()->withErrors($errors);
             return redirect(route('admin.photo.index'))->banner('success', 'Photos uploaded successfully');
         }            
-    }
-
-    public function storev2(Request $request)
-    {
-        $errors = [];
-        $category = Category::all();
-        // foreach ($request->input('gallery') as $index=>$image) {
-        //     $pond = Filepond::field($image);
-        //     $filename = $pond->
-        //     dd($filename);
-        //     dd($image);
-        // }
-        $fileInfos = Filepond::field($request->input('gallery'))->getFile();
-        foreach ($fileInfos as $fileinfo) {
-            try {
-                $filename = $fileinfo->getClientOriginalName();
-
-                $filename = pathinfo($filename, PATHINFO_FILENAME);
-
-                $star_level = Str::upper(explode("_", $filename)[0]);
-                $category_shortcode = Str::upper(explode("_", $filename)[1]);                    
-                $image_name = explode("_", $filename)[2];
-
-                $author_name = explode("_", $filename)[3];
-                $author_name = str_replace("copy", "", $author_name);
-                $author_name = explode(".", $author_name)[0];
-                $author_name = trim($author_name);
-
-                $submitted_date = $request->month .'-'. $request->year;
-                $submitted_date = Carbon::createFromFormat('m-Y', $submitted_date)->format('Y-m-d');
-
-                $validator = Validator::make([
-                    'image_name' => $image_name,
-                    'category_shortcode' => $category_shortcode,
-                    'author_name' => $author_name,
-                    'date' => $submitted_date,
-                    'star_level' => $star_level,
-                ],[
-                    'image_name' => 'required|string|max:255',
-                    'category_shortcode' => 'required|string|max:255',
-                    'author_name' => 'required|string|max:255',
-                    'date' => 'required|date',
-                    'star_level' => 'required|string|max:2',
-                ]);
-
-                $author = User::where('name', $author_name)->first();
-
-                $starLevel = StarLevel::where('name', $star_level)->first();
-
-                if (Str::startsWith($category_shortcode, 'C'))
-                    $category_id = $category->where('short_code', 'C')->first()->id;
-                else
-                    $category_id = $category->where('short_code', $category_shortcode)->first()->id;
-                
-                //$path = Storage::put('photos', $image);
-                
-                //$path = Storage::store()
-
-                if ($author)
-                {
-                    $path = str('photos/'. $fileinfo->getFilename());
-                    $author->photos()->create([
-                        'name' => $image_name,
-                        'description' => 'asdasdas',
-                        'category_id' => $category_id,
-                        'image_path' => $path,
-                        'image' => Storage::url($path),
-                        'submitted_at' => $submitted_date,
-                        'starlevel_id' => $starLevel->id,
-                        'original_name' => $filename,
-                    ]);
-                    $fileinfo->move('photos');
-                }
-                else
-                    // raise exception if author does not exist
-                    throw new \Exception('Author does not exist');
-            } catch (\Exception $e) {
-                $errors = Arr::add($errors, $image_name, $e->getMessage());
-            }
-        }
-
-        if (count($errors) > 0)
-            return redirect()->back()->withErrors($errors);
-        return redirect(route('admin.photo.index'))->banner('success', 'Photos uploaded successfully');
     }
 
     public function edit(Photo $photo)
