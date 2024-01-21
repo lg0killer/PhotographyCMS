@@ -42,7 +42,10 @@
         <div v-if="ClubInfo">
             <div>{{ photo.name }}</div>
             <div v-if="photo.owner">{{ photo.owner.name }}</div>
-            <div v-if="photo.category">{{ photo.category.name }}</div>
+            <div class="flex flex-initial">
+                <div v-if="photo.category">{{ photo.category.name }}</div>
+                <a class="fa fa-question-circle pl-1 pt-1"  v-tippy="{ content: photo.category.description, placement: 'right' }"/>
+            </div>
         </div>
         <div v-if="AdminInfo">
             <div>{{ photo.name }}</div>
@@ -60,6 +63,7 @@
 import Box from '@/Components/Box.vue'
 import { router, Link } from '@inertiajs/vue3'
 import { ref } from 'vue';
+import { directive as VTippy } from 'vue-tippy'
 
 const visibleRef = ref(false)
 const imgsRef = ref([])
