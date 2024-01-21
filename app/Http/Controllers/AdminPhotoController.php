@@ -176,7 +176,7 @@ class AdminPhotoController extends Controller
         $photo->awards()->sync($awards);
         $photo->update($request->all());
 
-        return redirect()->route('admin.photo.index')->with('success', 'Photo updated.');
+        return redirect()->route('admin.photo.index')->banner('Photo updated.');
     }
 
     public function destroy(Photo $photo)

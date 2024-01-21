@@ -62,6 +62,6 @@ class BarometerController extends Controller
                 );
         }
 
-        return redirect()->route('barometer.index')->with('success', 'Barometer created.');
+        return redirect()->route('barometer.index')->banner('Barometer updated.');
     }
 }

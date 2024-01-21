@@ -125,7 +125,7 @@ class PhotoController extends Controller
             ])
         );
         return redirect()->route('user.photo.index')
-            ->with('success', 'Photo updated successfully!');
+            ->banner('Photo updated successfully!');
     }
 
     /**
@@ -135,6 +135,6 @@ class PhotoController extends Controller
     {
         $photo->delete();
         return redirect()->back()
-            ->with('success', 'Photo deleted successfully!');
+            ->banner('Photo deleted successfully!');
     }
 }

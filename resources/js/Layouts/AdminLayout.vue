@@ -51,8 +51,8 @@ const logout = () => {
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('photo.index')" :active="route().current('photo.index')">
-                                    Photos
+                                <NavLink :href="route('admin.category.index')" :active="route().current('admin.category.index')">
+                                    Categories
                                 </NavLink>
                             </div>
                         </div>
@@ -151,8 +151,8 @@ const logout = () => {
                                             API Tokens
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.auth.user.is_admin" :href="route('admin.dashboard')">
-                                            Admin Panel
+                                        <DropdownLink v-if="$page.props.auth.user.is_admin" :href="route('dashboard.index')">
+                                            Main Panel
                                         </DropdownLink>
 
                                         <div class="border-t border-gray-200 dark:border-gray-600" />

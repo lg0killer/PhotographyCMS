@@ -39,7 +39,7 @@ class AdminUserController extends Controller
 
         User::create($request->all());
 
-        return redirect()->route('admin.user.index')->with('success', 'User created.');
+        return redirect()->route('admin.user.index')->banner('User created.');
     }
 
     // public function show(User $user)
@@ -75,13 +75,13 @@ class AdminUserController extends Controller
             ]));
         }
 
-        return redirect()->route('admin.user.index')->with('success', 'User updated.');
+        return redirect()->route('admin.user.index')->banner('User updated.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->route('admin.user.index')->with('success', 'User deleted.');
+        return redirect()->route('admin.user.index')->banner('User deleted.');
     }
 }
