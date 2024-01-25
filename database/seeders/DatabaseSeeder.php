@@ -21,12 +21,6 @@ class DatabaseSeeder extends Seeder
             // folder name (storage/app/public/<folder_name>)
         ];
         $folder_paths = $fs->directories(public_path('storage'));
-        // foreach ($folder_paths as $folder_path) {
-        //     $folder_name = last(explode('/', $folder_path));
-        //     if (!in_array($folder_name, $except_folder_names)) {
-        //         $fs->deleteDirectory($folder_path);
-        //     }
-        // }
 
         // delete files
         $except_file_names = [
@@ -123,8 +117,8 @@ class DatabaseSeeder extends Seeder
 
         //Create new users and assign photos to them
         \App\Models\User::factory()->create([
-            'name' => 'Deidre Schnetler',
-            'email' => 'schnetlerdeidre@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
             'is_admin' => true,
         ]);
 

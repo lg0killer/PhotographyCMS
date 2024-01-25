@@ -23,11 +23,3 @@ services:
     restart: always
     ports:
       - 8080:8080
-  # app:
-  #   build: .
-  #   ports:
-  #     - 8000:8000
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-      
