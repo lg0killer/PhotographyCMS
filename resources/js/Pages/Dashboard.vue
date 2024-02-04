@@ -40,18 +40,3 @@ let props = defineProps({
 
     </AppLayout>
 </template>
-
-
-<style scoped>
-    .box {
-        @apply flex flex-col m-4 border-gray-100 dark:border-gray-700 rounded-md shadow-sm dark:text-gray-300
-    }
-
-    .boxHeader {
-        @apply font-semibold text-gray-800 dark:text-gray-200 leading-tight p-1
-    }
-
-    .boxEmpty {
-        @apply flex justify-center pb-4
-    }
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="border mb-4 mx-4 border-gray-100 dark:border-gray-700 rounded-md p-4 shadow-sm dark:text-gray-300 bg-gray-100 dark:bg-gray-700">
+  <div class="basic_box">
     <div class="text-gray-500 font-medium">
       <slot name="header" />
     </div>

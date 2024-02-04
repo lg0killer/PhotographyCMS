@@ -16,6 +16,7 @@ use App\Http\Controllers\BarometerController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Photo;
 use RahulHaque\Filepond\Facades\Filepond;
+use App\Http\Controllers\ClubInformationController;
 
 
 /*
@@ -60,6 +61,7 @@ Route::middleware([
     Route::resource('photo', PhotoController::class)->only('index');
     Route::resource('clubphoto', ClubPhotoController::class);
     Route::resource('barometer', BarometerController::class)->only('index','create','store');
+    Route::resource('clubinfo', ClubInformationController::class)->only('index');
 });
 
 //Admin routes
