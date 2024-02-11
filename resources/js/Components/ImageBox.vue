@@ -44,7 +44,7 @@
             <div v-if="photo.owner">{{ photo.owner.name }}</div>
             <div class="flex flex-initial">
                 <div v-if="photo.category">{{ photo.category.name }}</div>
-                <a class="fa fa-question-circle pl-1 pt-1"  v-tippy="{ content: photo.category.description, placement: 'right' }"/>
+                <!-- <a class="fa fa-question-circle pl-1 pt-1"  v-tippy="{ content: photo.category.description, placement: 'right' }"/> -->
             </div>
         </div>
         <div v-if="AdminInfo">
