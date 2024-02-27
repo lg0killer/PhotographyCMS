@@ -28,6 +28,7 @@
         "@headlessui/vue": "^1.7.14",
         "@heroicons/vue": "^2.0.18",
         "@inertiajs/vue3": "^1.0.6",
+        "@sentry/vue": "^7.40.0",
         "@vuepic/vue-datepicker": "^5.2.0",
         "apexcharts": "^3.44.0",
         "flowbite": "^1.6.5",
