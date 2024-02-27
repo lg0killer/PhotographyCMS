@@ -55,6 +55,11 @@ const logout = () => {
                                     Categories
                                 </NavLink>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('admin.emailaudit.index')" :active="route().current('admin.emailaudit.index')">
+                                    Email Audit
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">

@@ -16,7 +16,10 @@ use App\Http\Controllers\BarometerController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Photo;
 use RahulHaque\Filepond\Facades\Filepond;
-
+use App\Jobs\SendSubmissionEmail;
+use App\Http\Controllers\EmailAuditController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MonthlySubmission;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,33 +74,15 @@ Route::middleware([
 ])  ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index']) ->name('dashboard');
+    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::resource('user', AdminUserController::class);
     Route::resource('photo', AdminPhotoController::class);
     Route::resource('category', CategoryController::class);
+    Route::resource('emailaudit', EmailAuditController::class)->only('index','show');
 });
 
-
-
-//Route::middleware(['auth:sanctum', 'verified'])->resource('/photo', PhotoController::class);
-
-// Route::resource('photo', PhotoController::class)
-//     //->only('create', 'store', 'edit', 'update', 'destroy')
-//     ->middleware('auth');
-
-//Route::resource('photo', PhotoController::class)
-//    ->except('create', 'store', 'edit', 'update', 'destroy');
-
-// Route::get('login', [AuthController::class, 'create'])
-//     ->name('login');
-// Route::post('login', [AuthController::class, 'store'])
-//     ->name('login.store');
-// Route::get('logout', [AuthController::class, 'destroy'])
-//     ->name('logout');
-
-// Route::prefix('user')
-//     ->name('user.')
-//     ->middleware('auth')
-//     ->group(function() {
-//         Route::resource('photo', UserPhotoController::class)->only('index', 'create', 'store');
-//     });
+Route::get('test-email', function() {
+    //SendSubmissionEmail::dispatch();
+    Mail::send(new MonthlySubmission);
+    dd('Message sent');
+});
