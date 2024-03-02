@@ -17,27 +17,37 @@ class PhotoController extends Controller
      */
     public function index()
     {
+        $startDate = request('startDate') ?? null;
+        if ($startDate != null) {
+            $startDate = Carbon::parse($startDate['year'] . "-" . $startDate['month'] +1 . "-01")->format('Y-m-d');
+        }
+
+        $endDate = request('endDate') ?? null;
+        if ($endDate != null) {
+            $endDate = Carbon::parse($endDate['year'] . "-" . $endDate['month'] +1 . "-01")->endOfMonth()->format('Y-m-d');
+        }
+
+        $paginate = request('paginate') ?? 10;
+
         $items = Auth::user()
         ->photos()
         ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
-        ->when(request('year'), fn ($query) => $query->whereYear('submitted_at', request('year')))
-        ->when(request('month'), fn ($query) => $query->whereMonth('submitted_at', request('month')))
+        ->when($startDate && $endDate, fn ($query) => $query->whereBetween('submitted_at', [$startDate, $endDate]))
         ->when(request('category'), fn ($query) => $query->whereHas('category', fn ($query) => $query->where('name', request('category'))))
         ->with('category', 'awards')
         ->orderByDesc('submitted_at')
-        ->paginate(10)
+        ->paginate($paginate)
         ->withQueryString();
-        // $items = Photo::with('category', 'owner', 'awards')->orderByDesc('created_at')->paginate(10);
         return inertia(
             "Photo/Index",
             [
                 'photos' => $items,
-                'filters' => request()->only(['awarded','year','month','category']),
+                'filters' => request()->only(['awarded','startDate','endDate','category','paginate']),
                 'categories' => Category::all()
             ]
         );
 
-        
+
         // return inertia(
         //     "Photo/Index",
         //     [

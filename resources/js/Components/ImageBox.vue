@@ -22,12 +22,12 @@
                     <img v-bind:style="{cursor:'zoom-in'}" @click="showSingle('../' + photo.image_path)" class="object-center" :src="'../' + photo.image_path"/>
                 </div>
                 <div>
-                        <vue-easy-lightbox
-                        :visible="visibleRef"
-                        :imgs="imgsRef"
-                        @hide="onHide"
-                        ></vue-easy-lightbox>
-                    </div>
+                    <vue-easy-lightbox
+                    :visible="visibleRef"
+                    :imgs="imgsRef"
+                    @hide="onHide"
+                    ></vue-easy-lightbox>
+                </div>
             </div>
         </div>
         <div v-if="UserInfo">
@@ -42,9 +42,11 @@
         <div v-if="ClubInfo">
             <div>{{ photo.name }}</div>
             <div v-if="photo.owner">{{ photo.owner.name }}</div>
-            <div class="flex flex-initial">
+            <div class="flex flex-initial justify-between">
                 <div v-if="photo.category">{{ photo.category.name }}</div>
                 <!-- <a class="fa fa-question-circle pl-1 pt-1"  v-tippy="{ content: photo.category.description, placement: 'right' }"/> -->
+                <div v-if="photo.submitted_at">{{ photo.submitted_at .replace(' ','/') }}</div>
+
             </div>
         </div>
         <div v-if="AdminInfo">
