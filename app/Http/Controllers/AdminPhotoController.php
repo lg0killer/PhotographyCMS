@@ -20,11 +20,22 @@ class AdminPhotoController extends Controller
 {
     public function index()
     {
+        $startDate = request('startDate') ?? null;
+        if ($startDate != null) {
+            $startDate = Carbon::parse($startDate['year'] . "-" . $startDate['month'] +1 . "-01")->format('Y-m-d');
+        }
+
+        $endDate = request('endDate') ?? null;
+        if ($endDate != null) {
+            $endDate = Carbon::parse($endDate['year'] . "-" . $endDate['month'] +1 . "-01")->endOfMonth()->format('Y-m-d');
+        }
+
+        $paginate = request('paginate') ?? 10;
+
         return inertia('Admin/Photo/Index',[
             'photos' => Photo::query()
                 ->when(request('awarded') == 'true', fn ($query) => $query->whereHas('awards'))
-                ->when(request('year'), fn ($query) => $query->whereYear('submitted_at', request('year')))
-                ->when(request('month'), fn ($query) => $query->whereMonth('submitted_at', request('month')))
+                ->when($startDate && $endDate, fn ($query) => $query->whereBetween('submitted_at', [$startDate, $endDate]))
                 ->when(request('category'), fn ($query) => $query->whereHas('category', fn ($query) => $query->where('name', request('category'))))
                 ->when(request('photographer'), function ($query, $photographer) {
                     $query->whereHas('owner', function ($query) use ($photographer) {
@@ -33,9 +44,9 @@ class AdminPhotoController extends Controller
                 })
                 ->with('category', 'owner', 'awards')
                 ->orderByDesc('created_at')
-                ->paginate(10)
+                ->paginate($paginate)
                 ->withQueryString(),
-            'filters' => request()->only(['awarded','year','month','category','photographer']),
+            'filters' => request()->only(['awarded','startDate','endDate','category','photographer','paginate']),
             'categories' => Category::all(),
             'total_photos' => Photo::count(),
         ]);
@@ -63,7 +74,7 @@ class AdminPhotoController extends Controller
                     $filename = $request->image_names[$index];
                     $filename = pathinfo($filename, PATHINFO_FILENAME);
                     $star_level = Str::upper(explode("_", $filename)[0]);
-                    $category_shortcode = Str::upper(explode("_", $filename)[1]);                    
+                    $category_shortcode = Str::upper(explode("_", $filename)[1]);
                     $image_name = explode("_", $filename)[2];
 
                     $score = $request->image_scores[$index];
@@ -107,9 +118,9 @@ class AdminPhotoController extends Controller
                         $category_id = $category->where('short_code', 'C')->first()->id;
                     else
                         $category_id = $category->where('short_code', $category_shortcode)->first()->id;
-                    
+
                     //$path = Storage::put('photos', $image);
-                    
+
                     //$path = Storage::store()
 
                     if ($author)
@@ -135,11 +146,11 @@ class AdminPhotoController extends Controller
                     $errors = Arr::add($errors, $image_name, $e->getMessage());
                 }
 
-            }           
+            }
             if (count($errors) > 0)
                 return redirect()->back()->withErrors($errors);
             return redirect(route('admin.photo.index'))->banner('success', 'Photos uploaded successfully');
-        }            
+        }
     }
 
     public function edit(Photo $photo)
@@ -160,7 +171,7 @@ class AdminPhotoController extends Controller
             'category_id' => $category_id,
             'submitted_at' => $submitted_at,
         ]);
-        
+
         $request->validate([
             'name' => ['required', 'max:255'],
             'category_id' => ['required', 'exists:categories,id'],
