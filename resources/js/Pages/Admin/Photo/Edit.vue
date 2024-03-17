@@ -1,9 +1,10 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { ref } from 'vue';
 
@@ -11,6 +12,7 @@ let props = defineProps({
     photo: Object,
     awards: Object,
     categories: Object,
+    returnRoute: String,
 });
 
 const processing = ref(false);
@@ -21,6 +23,7 @@ const form = useForm({
     submitted_at: props.photo.submitted_at,
     score: props.photo.score || 0,
     awards: props.photo.awards.map((award) => award.id),
+    returnRoute: props.returnRoute,
 });
 
 const update = () => form.put(route('admin.photo.update', props.photo.id), {
@@ -30,11 +33,21 @@ const update = () => form.put(route('admin.photo.update', props.photo.id), {
     onSuccess: () => {
         processing.value = false;
         form.reset();
+
     },
     onError: () => {
         processing.value = false;
     },
 });
+
+const cancel = () => {
+    if (form.returnRoute) {
+        router.get(form.returnRoute);
+    } else {
+        router.back();
+    }
+};
+
 </script>
 
 <template>
@@ -97,6 +110,11 @@ const update = () => form.put(route('admin.photo.update', props.photo.id), {
                     <InputError :message="form.errors.awards" class="mt-2" />
                 </div>
 
+                <div class="col-span-3" dir="rtl">
+                    <SecondaryButton @click="cancel">
+                        Cancel
+                    </SecondaryButton>
+                </div>
                 <div class="col-span-3" dir="rtl">
                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         <span v-if="form.processing">Updating</span>
