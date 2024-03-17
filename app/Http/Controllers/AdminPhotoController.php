@@ -14,6 +14,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use RahulHaque\Filepond\Facades\Filepond;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 
 class AdminPhotoController extends Controller
@@ -160,6 +162,7 @@ class AdminPhotoController extends Controller
             'photo' => $photo->load('category', 'owner', 'awards'),
             'awards' => Award::all(),
             'categories' => Category::all(),
+            'returnRoute' => URL::previous(),
         ]);
     }
 
@@ -187,7 +190,12 @@ class AdminPhotoController extends Controller
         $photo->awards()->sync($awards);
         $photo->update($request->all());
 
-        return redirect()->route('admin.photo.index')->banner('Photo updated.');
+        // return redirect()->back()->banner('Photo updated.');
+        if ($request->has('returnRoute')) {
+            return redirect()->to($request->returnRoute)->banner('Photo updated successfully');
+        } else {
+            return redirect()->route('admin.photo.index')->banner('Photo updated successfully');
+        }
     }
 
     public function destroy(Photo $photo)
