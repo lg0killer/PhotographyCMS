@@ -9,7 +9,7 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
-
+    environment: ocd
     steps:
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
