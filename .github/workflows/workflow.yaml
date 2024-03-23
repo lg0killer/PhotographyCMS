@@ -18,7 +18,8 @@ jobs:
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.REMOTE_PORT }}
+        script_stop: true
         script: |
           ls
-          git clone git@github.com:lg0killer/PhotographyCMS.git
+          git clone https://github.com/lg0killer/PhotographyCMS.git
           ls
