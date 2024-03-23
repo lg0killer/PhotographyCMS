@@ -1,4 +1,4 @@
-name: Node CI
+name: Deploy Laravel using SSH
 
 on:
   push:
@@ -11,16 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: ocd
     steps:
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@main
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.3
       with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          SCRIPT_BEFORE: |
-            whoami
-            ls -al
-          SCRIPT_AFTER: |
-            whoami
-            ls -al
-            echo $RSYNC_STDOUT
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.REMOTE_PORT }}
+        script: |
+          ls
+          git clone git@github.com:lg0killer/PhotographyCMS.git
+          ls
